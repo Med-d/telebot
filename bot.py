@@ -24,7 +24,7 @@ def find_user(chat_id, username):
         for row in cursor:
             if chat_id == row['chat_id']:
                 return SIMPLE
-        cursor.execute('insert simple_users(chat_id, name) values ('+chat_id+', '+username+');')
+        cursor.execute('insert simple_users(chat_id, name) values ('+int(chat_id)+', '+str(username)+');')
         return SIMPLE
 
 bot = telebot.TeleBot(config.TOKEN)
