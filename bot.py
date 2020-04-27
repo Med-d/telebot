@@ -10,7 +10,7 @@ SIMPLE = 'simple user'
 connect = pymysql.connect(host = 'localhost',
                              user = 'root',
                              password = config.passwordSQL,
-                             db = 'active_user',
+                             db = 'active_users',
                              charset = 'utf8',
                           cursorclass = pymysql.cursors.DictCursor)
 
