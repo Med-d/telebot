@@ -4,11 +4,27 @@ import os
 import shutil
 import pymysql.cursors
 '''
-connection = pymysql.connect(host = 'localhost',
+SUPER = 'super user'
+SIMPLE = 'simple user'
+
+connect = pymysql.connect(host = 'localhost',
                              user = 'root',
-                             password = config.passwordSQL
+                             password = config.passwordSQL,
                              db = 'active_user',
-                             charset = 'utf8')
+                             charset = 'utf8',
+                          cursorclass = pymysql.cursors.DictCursor)
+
+def find_user(chat_id):
+    with connect.cursor() as cursor:
+        cursor.execute("select chat_id from super_user")
+        for row in cursor:
+            if chat_id == row['chat_id']:
+                return SUPER
+        cursor.execute("select chat_id from simple_user")
+        for row in cursor:
+            if chat_id == row['chat_id']:
+                return SIMPLE
+        cursor.execute('insert simple_user(chat_id, name) values ('+chat_id+', '++')')
 '''
 bot = telebot.TeleBot(config.TOKEN)
 path = "photos"
@@ -34,7 +50,7 @@ def pull_out_All_Files(message):
 
 @bot.message_handler(commands = ["show_id"])
 def show_ID(message):
-    bot.send_message(message.chat.id, message.chat.id)
+    bot.send_message(message.chat.id, message.chat)
 
 @bot.message_handler(content_types=["text"])
 def repeat_all_messages(message): # Название функции не играет никакой роли, в принципе
