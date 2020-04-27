@@ -16,15 +16,15 @@ connect = pymysql.connect(host = 'localhost',
 
 def find_user(chat_id, username):
     with connect.cursor() as cursor:
-        cursor.execute("select chat_id from super_user")
+        cursor.execute("select chat_id from super_users")
         for row in cursor:
             if chat_id == row['chat_id']:
                 return SUPER
-        cursor.execute("select chat_id from simple_user")
+        cursor.execute("select chat_id from simple_users")
         for row in cursor:
             if chat_id == row['chat_id']:
                 return SIMPLE
-        cursor.execute('insert simple_user(chat_id, name) values ('+chat_id+', '+username+');')
+        cursor.execute('insert simple_users(chat_id, name) values ('+chat_id+', '+username+');')
         return SIMPLE
 
 bot = telebot.TeleBot(config.TOKEN)
